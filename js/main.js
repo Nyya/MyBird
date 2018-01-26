@@ -51,22 +51,6 @@ export default class Main {
   collisionDetection() {
     let that = this
 
-    databus.bullets.forEach((bullet) => {
-      for ( let i = 0, il = databus.enemys.length; i < il;i++ ) {
-        let enemy = databus.enemys[i]
-
-        if ( !enemy.isPlaying && enemy.isCollideWith(bullet) ) {
-          enemy.playAnimation()
-          that.music.playExplosion()
-
-          bullet.visible = false
-          databus.score  += 1
-
-          break
-        }
-      }
-    })
-
     for ( let i = 0, il = databus.enemys.length; i < il;i++ ) {
       let enemy = databus.enemys[i]
 
@@ -103,12 +87,6 @@ export default class Main {
 
     this.bg.render(ctx)
 
-    databus.bullets
-           .concat(databus.enemys)
-           .forEach((item) => {
-              item.drawToCanvas(ctx)
-            })
-
     this.player.drawToCanvas(ctx)
 
     databus.animations.forEach((ani) => {
@@ -124,12 +102,6 @@ export default class Main {
   update() {
     this.bg.update()
 
-    databus.bullets
-           .concat(databus.enemys)
-           .forEach((item) => {
-              item.update()
-            })
-
     this.enemyGenerate()
 
     this.collisionDetection()
@@ -141,11 +113,6 @@ export default class Main {
 
     this.update()
     this.render()
-
-    if ( databus.frame % 20 === 0 ) {
-      this.player.shoot()
-      this.music.playShoot()
-    }
 
     // 游戏结束停止帧循环
     if ( databus.gameOver ) {
