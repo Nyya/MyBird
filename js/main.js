@@ -26,8 +26,11 @@ export default class Main {
 
     this.bg       = new BackGround(ctx)
     this.player   = new Player(ctx)
+    this.pipes    = new Array()
     this.gameinfo = new GameInfo()
     this.music    = new Music()
+
+    this.initPipes();
 
     window.requestAnimationFrame(
       this.loop.bind(this),
@@ -35,31 +38,24 @@ export default class Main {
     )
   }
 
-  /**
-   * 随着帧数变化的敌机生成逻辑
-   * 帧数取模定义成生成的频率
-   */
-  enemyGenerate() {
-    if ( databus.frame % 30 === 0 ) {
-      let enemy = databus.pool.getItemByClass('enemy', Enemy)
-      enemy.init(6)
-      databus.enemys.push(enemy)
+  initPipes() {
+    for (var i = 0; i < 4; i++) {
+      if (i % 2 == 0) {
+        this.pipes[i] = new Enemy(120 * i, Math.random() * 100 - 100, 'images/pipe2.png');
+      } else {
+        this.pipes[i] = new Enemy(120 * i, window.innerHeight-200, 'images/pipe.png');
+      }
     }
   }
 
   // 全局碰撞检测
   collisionDetection() {
     let that = this
-
-    for ( let i = 0, il = databus.enemys.length; i < il;i++ ) {
-      let enemy = databus.enemys[i]
-
-      if (this.player.isCollideWith(enemy) || this.player.y > window.innerHeight) {
-        databus.gameOver = true
-
-        break
-      }
+   
+    if (this.player.y > window.innerHeight-25 || this.player.y < -30) {
+      databus.gameOver = true
     }
+    
   }
 
   //游戏结束后的触摸事件处理逻辑
@@ -88,6 +84,10 @@ export default class Main {
     this.bg.render(ctx)
 
     this.player.drawToCanvas(ctx)
+    
+    for (var i = 0; i < 4; i++) {
+      this.pipes[i].drawToCanvas(ctx)
+    }
 
     // this.player.rotate(ctx, this.player.gravity * 2)
 
@@ -105,8 +105,6 @@ export default class Main {
     this.player.update()
 
     this.bg.update()
-
-    this.enemyGenerate()
 
     this.collisionDetection()
   }
