@@ -19,7 +19,7 @@ export default class Player extends Sprite {
 
     // 玩家默认处于屏幕底部居中位置
     this.x = screenWidth / 2 - this.width / 2
-    this.y = screenHeight / 2 - this.height / 2
+    this.y = screenHeight / 3 - this.height / 2
 
     // 用于在手指移动的时候标识手指是否已经在飞机上了
     this.touched = false
@@ -37,6 +37,7 @@ export default class Player extends Sprite {
       e.preventDefault()
 
         this.touched = true
+        this.over = 1
 
     }).bind(this))
 
@@ -44,12 +45,20 @@ export default class Player extends Sprite {
       e.preventDefault()
 
       this.touched = false
+
     }).bind(this))
+
   }
 
-
   update() {
-    this.gravity += 0.1;
+   
     this.y += this.gravity;
+
+    this.gravity += 0.2;
+
+    if(this.touched == true && this.over == 1) {
+      this.gravity = -4.5
+      this.over = 0
+    }
   }
 }
