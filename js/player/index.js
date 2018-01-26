@@ -18,7 +18,7 @@ export default class Player extends Sprite {
     this.gravity = 1;
 
     // 玩家默认处于屏幕底部居中位置
-    this.x = screenWidth / 2 - this.width / 2
+    this.x = screenWidth / 4 - this.width / 2
     this.y = screenHeight / 3 - this.height / 2
 
     // 用于在手指移动的时候标识手指是否已经在飞机上了
