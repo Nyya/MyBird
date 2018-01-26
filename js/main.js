@@ -41,9 +41,9 @@ export default class Main {
   initPipes() {
     for (var i = 0; i < 4; i++) {
       if (i % 2 == 0) {
-        this.pipes[i] = new Enemy(120 * i, Math.random() * 100 - 100, 'images/pipe2.png');
+        this.pipes[i] = new Enemy(120 * i + window.innerWidth + 200, Math.random() * 100 - 100, 'images/pipe2.png');
       } else {
-        this.pipes[i] = new Enemy(120 * i, window.innerHeight-200, 'images/pipe.png');
+        this.pipes[i] = new Enemy(120 * i + window.innerWidth + 200, window.innerHeight-200, 'images/pipe.png');
       }
     }
   }
@@ -105,6 +105,12 @@ export default class Main {
     this.player.update()
 
     this.bg.update()
+
+    for (var i = 0; i < 4; i++) { 
+
+    this.pipes[i].update()
+
+    }
 
     this.collisionDetection()
   }
