@@ -1,14 +1,13 @@
 import Sprite   from '../base/sprite'
-import Bullet   from './bullet'
 import DataBus  from '../databus'
 
 const screenWidth    = window.innerWidth
 const screenHeight   = window.innerHeight
 
 // 玩家相关常量设置
-const PLAYER_IMG_SRC = 'images/hero.png'
-const PLAYER_WIDTH   = 80
-const PLAYER_HEIGHT  = 80
+const PLAYER_IMG_SRC = 'images/bird.png'
+const PLAYER_WIDTH   = 50
+const PLAYER_HEIGHT  = 50
 
 let databus = new DataBus()
 
@@ -106,21 +105,5 @@ export default class Player extends Sprite {
 
       this.touched = false
     }).bind(this))
-  }
-
-  /**
-   * 玩家射击操作
-   * 射击时机由外部决定
-   */
-  shoot() {
-    let bullet = databus.pool.getItemByClass('bullet', Bullet)
-
-    bullet.init(
-      this.x + this.width / 2 - bullet.width / 2,
-      this.y - 10,
-      10
-    )
-
-    databus.bullets.push(bullet)
   }
 }
