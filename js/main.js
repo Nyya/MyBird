@@ -54,7 +54,7 @@ export default class Main {
     for ( let i = 0, il = databus.enemys.length; i < il;i++ ) {
       let enemy = databus.enemys[i]
 
-      if ( this.player.isCollideWith(enemy) ) {
+      if (this.player.isCollideWith(enemy) || this.player.y > window.innerHeight) {
         databus.gameOver = true
 
         break
@@ -100,6 +100,7 @@ export default class Main {
 
   // 游戏逻辑更新主函数
   update() {
+    this.player.update()
     this.bg.update()
 
     this.enemyGenerate()

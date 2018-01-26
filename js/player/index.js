@@ -15,58 +15,17 @@ export default class Player extends Sprite {
   constructor() {
     super(PLAYER_IMG_SRC, PLAYER_WIDTH, PLAYER_HEIGHT)
 
+    this.gravity = 1;
+
     // 玩家默认处于屏幕底部居中位置
     this.x = screenWidth / 2 - this.width / 2
-    this.y = screenHeight - this.height - 30
+    this.y = screenHeight / 2 - this.height / 2
 
     // 用于在手指移动的时候标识手指是否已经在飞机上了
     this.touched = false
 
-    this.bullets = []
-
     // 初始化事件监听
     this.initEvent()
-  }
-
-  /**
-   * 当手指触摸屏幕的时候
-   * 判断手指是否在飞机上
-   * @param {Number} x: 手指的X轴坐标
-   * @param {Number} y: 手指的Y轴坐标
-   * @return {Boolean}: 用于标识手指是否在飞机上的布尔值
-   */
-  checkIsFingerOnAir(x, y) {
-    const deviation = 30
-
-    return !!(   x >= this.x - deviation
-              && y >= this.y - deviation
-              && x <= this.x + this.width + deviation
-              && y <= this.y + this.height + deviation  )
-  }
-
-  /**
-   * 根据手指的位置设置飞机的位置
-   * 保证手指处于飞机中间
-   * 同时限定飞机的活动范围限制在屏幕中
-   */
-  setAirPosAcrossFingerPosZ(x, y) {
-    let disX = x - this.width / 2
-    let disY = y - this.height / 2
-
-    if ( disX < 0 )
-      disX = 0
-
-    else if ( disX > screenWidth - this.width )
-      disX = screenWidth - this.width
-
-    if ( disY <= 0 )
-      disY = 0
-
-    else if ( disY > screenHeight - this.height )
-      disY = screenHeight - this.height
-
-    this.x = disX
-    this.y = disY
   }
 
   /**
@@ -77,26 +36,7 @@ export default class Player extends Sprite {
     canvas.addEventListener('touchstart', ((e) => {
       e.preventDefault()
 
-      let x = e.touches[0].clientX
-      let y = e.touches[0].clientY
-
-      //
-      if ( this.checkIsFingerOnAir(x, y) ) {
         this.touched = true
-
-        this.setAirPosAcrossFingerPosZ(x, y)
-      }
-
-    }).bind(this))
-
-    canvas.addEventListener('touchmove', ((e) => {
-      e.preventDefault()
-
-      let x = e.touches[0].clientX
-      let y = e.touches[0].clientY
-
-      if ( this.touched )
-        this.setAirPosAcrossFingerPosZ(x, y)
 
     }).bind(this))
 
@@ -105,5 +45,11 @@ export default class Player extends Sprite {
 
       this.touched = false
     }).bind(this))
+  }
+
+
+  update() {
+    this.gravity += 0.1;
+    this.y += this.gravity;
   }
 }
