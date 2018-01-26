@@ -89,6 +89,8 @@ export default class Main {
 
     this.player.drawToCanvas(ctx)
 
+    // this.player.rotate(ctx, this.player.gravity * 2)
+
     databus.animations.forEach((ani) => {
       if ( ani.isPlaying ) {
         ani.aniRender(ctx)
@@ -101,6 +103,7 @@ export default class Main {
   // 游戏逻辑更新主函数
   update() {
     this.player.update()
+
     this.bg.update()
 
     this.enemyGenerate()

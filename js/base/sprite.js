@@ -31,6 +31,18 @@ export default class Sprite {
     )
   }
 
+rotate(ctx, r) {
+  ctx.save();
+  ctx.rotate(r * Math.PI / 180);
+  ctx.drawImage(
+    this.img,
+    this.x,
+    this.y,
+    this.width,
+    this.height
+  )
+}
+
   /**
    * 简单的碰撞检测定义：
    * 另一个精灵的中心点处于本精灵所在的矩形内即可
