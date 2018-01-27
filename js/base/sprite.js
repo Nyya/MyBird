@@ -2,17 +2,27 @@
  * 游戏基础的精灵类
  */
 export default class Sprite {
-  constructor(imgSrc = '', width=  0, height = 0, x = 0, y = 0) {
+  constructor(imgSrc = '', width = 0, height = 0, x = 0, y = 0) {
     this.img     = new Image()
     this.img.src = imgSrc
 
     this.width  = width
     this.height = height
 
+    this.colWidth = 0
+    this.colHeight = 0
+    this.colX = 0
+    this.colY = 0
+
     this.x = x
     this.y = y
 
     this.visible = true
+  }
+
+  setCollision(colW, colH) {
+    this.colWidth = colW
+    this.colHeight = colH
   }
 
   /**
@@ -29,6 +39,10 @@ export default class Sprite {
       this.width,
       this.height
     )
+
+    //显示碰撞区域
+    ctx.strokeStyle = '#F00'
+    ctx.strokeRect(this.x, this.y, this.colWidth, this.colHeight)
   }
 
 rotate(ctx, r) {
@@ -49,15 +63,14 @@ rotate(ctx, r) {
    * @param{Sprite} sp: Sptite的实例
    */
   isCollideWith(sp) {
-    let spX = sp.x + sp.width / 2
-    let spY = sp.y + sp.height / 2
-
-    if ( !this.visible || !sp.visible )
-      return false
-
-    return !!(   spX >= this.x
-              && spX <= this.x + this.width
-              && spY >= this.y
-              && spY <= this.y + this.height  )
+    let aRectStartX = Math.max(this.x, sp.x);
+    let aRectStartY = Math.max(this.y, sp.y);
+    let iRectEndX = Math.min(this.x + this.colWidth, sp.x + sp.width);
+    let iRectEndY = Math.min(this.y + this.colHeight, sp.y + sp.height);
+    if (aRectStartX <= iRectEndX && aRectStartY <= iRectEndY) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

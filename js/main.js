@@ -26,6 +26,7 @@ export default class Main {
 
     this.bg       = new BackGround(ctx)
     this.player   = new Player(ctx)
+    this.player.setCollision(40, 40)
     this.pipes    = new Array()
     this.gameinfo = new GameInfo()
     this.music    = new Music()
@@ -41,10 +42,11 @@ export default class Main {
   initPipes() {
     for (var i = 0; i < 4; i++) {
       if (i % 2 == 0) {
-        this.pipes[i] = new Enemy(120 * i + window.innerWidth + 200, Math.random() * 100 - 100, 'images/pipe2.png');
+        this.pipes[i] = new Enemy(120 * i + window.innerWidth + 200, Math.random() * 50 - 80, 'images/pipe2.png', true);
       } else {
-        this.pipes[i] = new Enemy(120 * i + window.innerWidth + 200, window.innerHeight-200, 'images/pipe.png');
+        this.pipes[i] = new Enemy(120 * i + window.innerWidth + 200, window.innerHeight - 200, 'images/pipe.png', false);
       }
+      this.pipes[i].setCollision(85, 360)
     }
   }
 
@@ -52,6 +54,12 @@ export default class Main {
   collisionDetection() {
     let that = this
    
+    for (var i = 0; i < 4; i++) {
+      if (this.pipes[i].isCollideWith(this.player)) {
+        databus.gameOver = true
+      }
+    }
+
     if (this.player.y > window.innerHeight-25 || this.player.y < -30) {
       databus.gameOver = true
     }

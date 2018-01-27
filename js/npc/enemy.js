@@ -12,18 +12,24 @@ function rnd(start, end){
 }
 
 export default class Enemy extends Sprite {
-  constructor(xx, yy, img) {
+  constructor(xx, yy, img, isTop) {
     super(img, ENEMY_WIDTH, ENEMY_HEIGHT)
     this.x = xx;
     this.y = yy;
+    this.isTop = isTop;
   }
 
   // 每一帧更新子弹位置
   update() {
     this.x -= 2.3
     if(this.x < -ENEMY_WIDTH) {
-      this.x = 100 + window.innerWidth
-      this.y = this.y + (-25 + Math.random() * 60);
+      this.x = 90 + window.innerWidth
+      if (this.isTop) {
+        this.y = Math.random() * 90 - 80;
+      } else {
+        this.y = window.innerHeight - 200 -35 + Math.random() * 70;
+      }
+      
     }
   }
 }
