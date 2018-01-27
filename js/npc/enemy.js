@@ -17,6 +17,7 @@ export default class Enemy extends Sprite {
     this.x = xx;
     this.y = yy;
     this.isTop = isTop;
+
   }
 
   // 每一帧更新子弹位置

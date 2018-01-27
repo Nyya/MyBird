@@ -1,5 +1,5 @@
-import Sprite   from '../base/sprite'
 import DataBus  from '../databus'
+import Animation from '../base/animation'
 
 const screenWidth    = window.innerWidth
 const screenHeight   = window.innerHeight
@@ -11,7 +11,7 @@ const PLAYER_HEIGHT  = 50
 
 let databus = new DataBus()
 
-export default class Player extends Sprite {
+export default class Player extends Animation {
   constructor() {
     super(PLAYER_IMG_SRC, PLAYER_WIDTH, PLAYER_HEIGHT)
 
@@ -24,8 +24,24 @@ export default class Player extends Sprite {
     // 用于在手指移动的时候标识手指是否已经在飞机上了
     this.touched = false
 
+    this.initExplosionAnimation()
+    
     // 初始化事件监听
     this.initEvent()
+  }
+
+  // 预定义爆炸的帧动画
+  initExplosionAnimation() {
+    let frames = []
+
+    const EXPLO_IMG_PREFIX = 'images/explosion'
+    const EXPLO_FRAME_COUNT = 19
+
+    for (let i = 0; i < EXPLO_FRAME_COUNT; i++) {
+      frames.push(EXPLO_IMG_PREFIX + (i + 1) + '.png')
+    }
+
+    this.initFrames(frames)
   }
 
   /**
