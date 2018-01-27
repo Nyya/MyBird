@@ -56,13 +56,20 @@ export default class Main {
    
     for (var i = 0; i < 4; i++) {
       if (this.pipes[i].isCollideWith(this.player)) {
+        this.player.playAnimation()
         databus.gameOver = true
+      }
+
+      if (this.pipes[i].x <= this.player.x && this.pipes[i].x >= this.player.x - 2) {
+        databus.score++
       }
     }
 
     if (this.player.y > window.innerHeight-25 || this.player.y < -30) {
       databus.gameOver = true
     }
+
+
     
   }
 
@@ -110,6 +117,10 @@ export default class Main {
 
   // 游戏逻辑更新主函数
   update() {
+    if (databus.gameOver) {
+      return
+    }
+
     this.player.update()
 
     this.bg.update()
@@ -131,7 +142,7 @@ export default class Main {
     this.render()
 
     // 游戏结束停止帧循环
-    if ( databus.gameOver ) {
+    if ( databus.gameOver && !this.player.isPlaying) {
       this.gameinfo.renderGameOver(ctx, databus.score)
 
       this.touchHandler = this.touchEventHandler.bind(this)

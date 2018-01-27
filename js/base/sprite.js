@@ -43,8 +43,8 @@ export default class Sprite {
     )
 
     //显示碰撞区域
-    ctx.strokeStyle = '#F00'
-    ctx.strokeRect(this.x + this.colX, this.y + this.colY, this.colWidth, this.colHeight)
+    // ctx.strokeStyle = '#F00'
+    // ctx.strokeRect(this.x + this.colX, this.y + this.colY, this.colWidth, this.colHeight)
   }
 
 rotate(ctx, r) {
