@@ -20,9 +20,11 @@ export default class Sprite {
     this.visible = true
   }
 
-  setCollision(colW, colH) {
+  setCollision(colW, colH, colX, colY) {
     this.colWidth = colW
     this.colHeight = colH
+    this.colX = colX
+    this.colY = colY
   }
 
   /**
@@ -42,7 +44,7 @@ export default class Sprite {
 
     //显示碰撞区域
     ctx.strokeStyle = '#F00'
-    ctx.strokeRect(this.x, this.y, this.colWidth, this.colHeight)
+    ctx.strokeRect(this.x + this.colX, this.y + this.colY, this.colWidth, this.colHeight)
   }
 
 rotate(ctx, r) {
@@ -63,10 +65,10 @@ rotate(ctx, r) {
    * @param{Sprite} sp: Sptite的实例
    */
   isCollideWith(sp) {
-    let aRectStartX = Math.max(this.x, sp.x);
-    let aRectStartY = Math.max(this.y, sp.y);
-    let iRectEndX = Math.min(this.x + this.colWidth, sp.x + sp.width);
-    let iRectEndY = Math.min(this.y + this.colHeight, sp.y + sp.height);
+    let aRectStartX = Math.max(this.x + this.colX, sp.x + sp.colX)
+    let aRectStartY = Math.max(this.y + this.colY, sp.y + sp.colY)
+    let iRectEndX = Math.min(this.x + this.colX + this.colWidth, sp.x + sp.colX + sp.colWidth)
+    let iRectEndY = Math.min(this.y + this.colY + this.colHeight, sp.y + sp.colY + sp.colHeight)
     if (aRectStartX <= iRectEndX && aRectStartY <= iRectEndY) {
       return true;
     } else {

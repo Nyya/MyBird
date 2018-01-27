@@ -26,7 +26,7 @@ export default class Main {
 
     this.bg       = new BackGround(ctx)
     this.player   = new Player(ctx)
-    this.player.setCollision(40, 40)
+    this.player.setCollision(38, 31,5 ,10)
     this.pipes    = new Array()
     this.gameinfo = new GameInfo()
     this.music    = new Music()
@@ -46,7 +46,7 @@ export default class Main {
       } else {
         this.pipes[i] = new Enemy(120 * i + window.innerWidth + 200, window.innerHeight - 200, 'images/pipe.png', false);
       }
-      this.pipes[i].setCollision(85, 360)
+      this.pipes[i].setCollision(85, 360 , 0, 0)
     }
   }
 
